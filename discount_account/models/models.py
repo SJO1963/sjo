@@ -100,38 +100,80 @@ class AccountMove(models.Model):
 
             # Recompute amls: update existing line or create new one for each payment term.
             new_terms_lines = self.env['account.move.line']
+            is_disc_account = False
             for date_maturity, balance, amount_currency in to_compute:
                 if self.journal_id.company_id.currency_id.is_zero(balance) and len(to_compute) > 1:
                     continue
 
                 if existing_terms_lines_index < len(existing_terms_lines):
                     candidate = existing_terms_lines[existing_terms_lines_index]
+                    if is_disc_account:
+                        candidate = existing_terms_lines.filtered(lambda can : can if can.account_id.id != self.partner_id.discount_payment_account_id.id else None)
+
                     account_id = None
                     if self.partner_id.discount_payment_account_id and self.invoice_payment_term_id and \
-                            self.invoice_payment_term_id.line_ids.search([('value', '=', 'percent')])[0]:
+                            self.invoice_payment_term_id.line_ids[0].value=='percent':
                         discount_amount = (self.invoice_payment_term_id.line_ids.search([('value', '=', 'percent')])[
                                                0].value_amount / 100) * total_balance
                         if discount_amount:
-                            if int(balance) == int(discount_amount) and candidate.account_id.id != self.partner_id.discount_payment_account_id.id:
-                                    account_id = self.partner_id.discount_payment_account_id
+                            if int(balance) == int(discount_amount):
+                                candidate = existing_terms_lines.filtered(lambda can : can if can.account_id.id == self.partner_id.discount_payment_account_id.id else None
+                              )
+                            if not candidate:
+                                create_method = in_draft_mode and self.env['account.move.line'].new or self.env[
+                                    'account.move.line'].create
+                                candidate = create_method({
+                                    'name': self.invoice_payment_ref or '',
+                                    'debit': balance < 0.0 and -balance or 0.0,
+                                    'credit': balance > 0.0 and balance or 0.0,
+                                    'quantity': 1.0,
+                                    'amount_currency': -amount_currency,
+                                    'date_maturity': date_maturity,
+                                    'move_id': self.id,
+                                    'currency_id': self.currency_id.id if self.currency_id != self.company_id.currency_id else False,
+                                    'account_id': self.partner_id.discount_payment_account_id.id,
+                                    'partner_id': self.commercial_partner_id.id,
+                                    'exclude_from_invoice_tab': True,
+                                })
+                            is_disc_account = True
+
 
                     elif self.partner_id.discount_payment_account_id and self.invoice_payment_term_id and \
-                            self.invoice_payment_term_id.line_ids.search([('value', '=', 'fixed')])[0]:
-                        discount_amount = (self.invoice_payment_term_id.line_ids.search([('value', '=', 'fixed')])[
-                                               0].value_amount / 100) * total_balance
+                            self.invoice_payment_term_id.line_ids[0].value=='fixed':
+                        discount_amount = self.invoice_payment_term_id.line_ids.search([('value', '=', 'fixed')])[
+                                               0].value_amount
                         if int(balance) == int(discount_amount) and candidate.account_id.id != self.partner_id.discount_payment_account_id.id:
-                            if int(balance) == int(discount_amount):
-                                account_id = self.partner_id.discount_payment_account_id
+                            candidate = existing_terms_lines.filtered(lambda
+                                                                          can: can if can.account_id.id == self.partner_id.discount_payment_account_id.id else None
+                                                                      )
+                            is_disc_account = True
+                            if not candidate:
+                                create_method = in_draft_mode and self.env['account.move.line'].new or self.env[
+                                    'account.move.line'].create
+                                candidate = create_method({
+                                    'name': self.invoice_payment_ref or '',
+                                    'debit': balance < 0.0 and -balance or 0.0,
+                                    'credit': balance > 0.0 and balance or 0.0,
+                                    'quantity': 1.0,
+                                    'amount_currency': -amount_currency,
+                                    'date_maturity': date_maturity,
+                                    'move_id': self.id,
+                                    'currency_id': self.currency_id.id if self.currency_id != self.company_id.currency_id else False,
+                                    'account_id': self.partner_id.discount_payment_account_id.id,
+                                    'partner_id': self.commercial_partner_id.id,
+                                    'exclude_from_invoice_tab': True,
+                                })
                     # Update existing line.
 
-                    candidate = existing_terms_lines[existing_terms_lines_index]
+                    # candidate = existing_terms_lines[existing_terms_lines_index]
                     existing_terms_lines_index += 1
                     candidate.update({
                         'date_maturity': date_maturity,
                         'amount_currency': -amount_currency,
                         'debit': balance < 0.0 and -balance or 0.0,
                         'credit': balance > 0.0 and balance or 0.0,
-                        'account_id':account_id.id if account_id else candidate.account_id.id
+                        'account_id':candidate.account_id.id
+                        # 'account_id':account_id.id if account_id else candidate.account_id.id
                     })
                 else:
                     # Create new line.
