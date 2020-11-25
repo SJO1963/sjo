@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook/page[1]/group" position="after">
                     <div class="ks_container">
-                     <field name="ks_enable_discount" />
+                     <field name="apply_discount" />
                     </div>
                     
                     <div class="ks_container">

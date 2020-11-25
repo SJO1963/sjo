@@ -29,6 +29,18 @@ class KsGlobalDiscountInvoice(models.Model):
     ks_sales_discount_account_id = fields.Integer(compute='ks_verify_discount')
     ks_purchase_discount_account_id = fields.Integer(compute='ks_verify_discount')
 
+    
+    @api.onchange('apply_discount')
+    def _onchange_apply_discount(self):
+        self.write({
+        'ks_global_discount_type': self.partner_id.ks_global_discount_type,
+        'ks_global_discount_rate': self.partner_id.ks_global_discount_rate
+            })
+        
+        
+    
+    
+    
     @api.depends('company_id.ks_enable_discount')
     def ks_verify_discount(self):
         for rec in self:
@@ -142,7 +154,7 @@ class KsGlobalDiscountInvoice(models.Model):
                     rec._recompute_universal_discount_lines()
                 print()
 
-    @api.onchange('ks_global_discount_rate', 'ks_global_discount_type', 'line_ids')
+    @api.onchange('ks_global_discount_rate', 'ks_global_discount_type', 'line_ids','apply_discount')
     def _recompute_universal_discount_lines(self):
         """This Function Create The General Entries for Universal Discount"""
         for rec in self:
@@ -150,7 +162,7 @@ class KsGlobalDiscountInvoice(models.Model):
             if rec.ks_global_discount_rate > 0 and rec.type in type_list:
                 if rec.is_invoice(include_receipts=True):
                     in_draft_mode = self != self._origin
-                    ks_name = "Universal Discount "
+                    ks_name = "Discount "
                     if rec.ks_global_discount_type == "amount":
                         ks_value = "of amount #" + str(self.ks_global_discount_rate)
                     elif rec.ks_global_discount_type == "percent":

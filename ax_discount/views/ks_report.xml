@@ -4,7 +4,7 @@
             <t t-if="doc.ks_amount_discount>0">
                 <tr>
                     <td>
-                        <span>Universal Discount </span>
+                        <span>Discount </span>
                         <t t-if="doc.ks_global_discount_type == 'percent'">
                             (<span t-field="doc.ks_global_discount_rate"/>%)
                         </t>
@@ -25,7 +25,7 @@
 
                 <tr>
                     <td>
-                        <span>Universal Discount </span>
+                        <span>Discount </span>
                         <t t-if="o.ks_global_discount_type == 'percent'">
                             (<span t-field="o.ks_global_discount_rate"/>%)
                         </t>
@@ -46,7 +46,7 @@
 
                 <tr>
                     <td>
-                        <span>Universal Discount </span>
+                        <span>Discount </span>
                         <t t-if="o.ks_global_discount_type == 'percent'">
                             (<span t-field="o.ks_global_discount_rate"/>%)
                         </t>

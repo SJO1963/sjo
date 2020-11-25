@@ -6,7 +6,7 @@
             <field name="priority" eval="50"/>
             <field name="inherit_id" ref="base.res_config_settings_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='apply_discount']" position="after">
+                <xpath expr="//field[@name='has_accounting_entries']" position="after">
 
                     <h2 attrs="{'invisible': [('has_chart_of_accounts','==',False)]}">Universal Discount</h2>
                     <div class="row mt16 o_settings_container"
