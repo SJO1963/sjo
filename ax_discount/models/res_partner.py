@@ -334,17 +334,17 @@ class ReportAgedPartnerBalance(models.AbstractModel):
 
             #     customization to get discount on aged payable account.
             discount_amount = 0.0
-            if line.move_id.invoice_payment_state!='paid' and line.move_id.invoice_payment_term_id:
-                if line.partner_id.discount_payment_account_id and line.move_id.invoice_payment_term_id and \
-                        line.move_id.invoice_payment_term_id.line_ids.search([('value', '=', 'percent')])[0]:
-                    discount_amount = (line.move_id.invoice_payment_term_id.line_ids.search(
-                        [('value', '=', 'percent')])[
-                                           0].value_amount / 100) * line.move_id.amount_total
+            # if line.move_id.invoice_payment_state!='paid' and line.move_id.invoice_payment_term_id:
+            #     if line.partner_id.discount_payment_account_id and line.move_id.invoice_payment_term_id and \
+            #             line.move_id.invoice_payment_term_id.line_ids.search([('value', '=', 'percent')])[0]:
+            #         discount_amount = (line.move_id.invoice_payment_term_id.line_ids.search(
+            #             [('value', '=', 'percent')])[
+            #                                0].value_amount / 100) * line.move_id.amount_total
 
-                elif line.partner_id.discount_payment_account_id and line.move_id.invoice_payment_term_id and \
-                        line.move_id.invoice_payment_term_id.line_ids.search([('value', '=', 'fixed')])[0]:
-                    discount_amount = (line.move_id.invoice_payment_term_id.line_ids.search([('value', '=', 'fixed')])[
-                                           0].value_amount)
+            #     elif line.partner_id.discount_payment_account_id and line.move_id.invoice_payment_term_id and \
+            #             line.move_id.invoice_payment_term_id.line_ids.search([('value', '=', 'fixed')])[0]:
+            #         discount_amount = (line.move_id.invoice_payment_term_id.line_ids.search([('value', '=', 'fixed')])[
+            #                                0].value_amount)
             disc_amount[partner_id] += line.move_id.ks_amount_discount
             total_amount[partner_id]=line.move_id.amount_total
 
@@ -402,3 +402,4 @@ class ReportAgedPartnerBalance(models.AbstractModel):
             if at_least_one_amount or (self._context.get('include_nullified_amount') and lines[partner['partner_id']]):
                 res.append(values)
         return res, total, lines
+
