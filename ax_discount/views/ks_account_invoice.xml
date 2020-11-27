@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook/page[1]/group" position="after">
                 <div class="ks_container">
-<label for="apply_discount" string="Universal Discount Type:"
+<label for="apply_discount" string="Apply Discount"
                                attrs="{'invisible':[('ks_enable_discount','!=',True),('ks_amount_discount','=',0)]}"/>
                         <field name="apply_discount" class="oe_inline"
                                attrs="{'invisible':[('ks_enable_discount','!=',True),('ks_amount_discount','=',0)],'readonly':['|',('ks_enable_discount','!=',True),('state', 'in', ['posted', 'cancel'])]}"/>
