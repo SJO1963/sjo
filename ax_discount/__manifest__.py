@@ -14,7 +14,7 @@
     'category': 'Sales Management',
     'version': '1.2.0',
     'license': 'LGPL-3',
-    'depends': ['base','base_setup','contacts', 'sale', 'purchase', 'sale_management'],
+    'depends': ['base','base_setup','contacts','account_accountant', 'sale', 'purchase', 'sale_management'],
 
     'data': [
         'views/ks_sale_order.xml',
