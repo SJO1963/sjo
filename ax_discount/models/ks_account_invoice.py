@@ -12,16 +12,16 @@ class KsGlobalDiscountInvoice(models.Model):
     ks_global_discount_type = fields.Selection([
                                                 ('percent', 'Percentage'),
                                                 ('amount', 'Amount')],
-                                               string='Discount Type',
+                                               string='Universal Discount Type',
                                                readonly=True,
                                                 states={'draft': [('readonly', False)],
                                                         'sent': [('readonly', False)]},
                                                 default='percent')
-    ks_global_discount_rate = fields.Float('Discount',
+    ks_global_discount_rate = fields.Float('Universal Discount',
                                            readonly=True,
                                            states={'draft': [('readonly', False)],
                                                    'sent': [('readonly', False)]})
-    ks_amount_discount = fields.Monetary(string='Discount',
+    ks_amount_discount = fields.Monetary(string='Universal Discount',
                                          readonly=True,
                                          compute='_compute_amount',
                                          store=True, track_visibility='always')

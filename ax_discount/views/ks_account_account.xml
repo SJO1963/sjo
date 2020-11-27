@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='has_accounting_entries']" position="after">
 
-                    <h2 attrs="{'invisible': [('has_chart_of_accounts','==',False)]}">Discount</h2>
+                    <h2 attrs="{'invisible': [('has_chart_of_accounts','==',False)]}">Universal Discount</h2>
                     <div class="row mt16 o_settings_container"
                          attrs="{'invisible': [('has_chart_of_accounts','==',False)]}">
                         <div class="col-xs-12 col-md-6 o_setting_box">
@@ -18,7 +18,7 @@
                             <div class="o_setting_right_pane">
                                 <label for ='ks_enable_discount'/>
                                 <div class="text-muted">
-                                    Activate discount on all modules.
+                                    Activate Universal discount on all modules.
                                 </div>
 
                             </div>
@@ -28,7 +28,7 @@
                             <div class="o_setting_right_pane">
                                 <span class="o_form_label">Accounts</span>
                                 <div class="text-muted">
-                                        Set default discount accounts for sale and purchase order.
+                                        Set default Universal discount accounts for sale and purchase order.
                                 </div>
                                 <div class="content-group">
                                     <div class="row mt16" >
