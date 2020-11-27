@@ -8,14 +8,14 @@ class KsGlobalDiscountSales(models.Model):
     _inherit = "sale.order"
 
     ks_global_discount_type = fields.Selection([('percent', 'Percentage'), ('amount', 'Amount')],
-                                               string='Universal Discount Type',
+                                               string='Discount Type',
                                                readonly=True,
                                                states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
                                                default='percent')
-    ks_global_discount_rate = fields.Float('Universal Discount',
+    ks_global_discount_rate = fields.Float('Discount',
                                            readonly=True,
                                            states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
-    ks_amount_discount = fields.Monetary(string='Universal Discount', readonly=True, compute='_amount_all', store=True,
+    ks_amount_discount = fields.Monetary(string='Discount', readonly=True, compute='_amount_all', store=True,
                                          track_visibility='always')
     ks_enable_discount = fields.Boolean(compute='ks_verify_discount')
 
