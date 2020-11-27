@@ -1,0 +1,39 @@
+ <odoo>
+  <template id="ckus_stub_inherit" inherit_id="l10n_us_check_printing.ckus_stub" >
+        <xpath expr="//table[1]/thead" position="replace">
+            <thead><tr>
+                <th class="text-left">Due Date</th>
+                <th class="text-left">Description</th>
+                <th class="text-right">Invoice Amount</th>
+                <th class="text-right">Discount Amount</th>
+                <th class="text-right">Payment</th>
+
+            </tr></thead>
+
+
+        </xpath>
+         <xpath expr="//table[1]/tbody" position="replace">
+            <tbody>
+                <t t-foreach="page['stub_lines']" t-as="stub_line">
+                    <t t-if="stub_line.get('header')">
+                        <tr><th colspan="6"><t t-esc="stub_line['name']"/></th></tr>
+                    </t>
+                    <t t-if="not stub_line.get('header')"><tr>
+                        <td class="text-left"><t t-if="stub_line['due_date']" t-esc="stub_line['due_date']"/></td>
+                        <td class="text-left text-truncate" style="max-width: 500px;"><t t-esc="stub_line['number']"/></td>
+                        <td class="text-right"><t t-esc="stub_line['amount_total']"/></td>
+                        <td class="text-right">
+                            <span t-esc="stub_line['ks_amount_discount']"/>
+                        </td>
+                        <td class="text-right"><t t-esc="stub_line['amount_paid']"/></td>
+                    </tr></t>
+                </t>
+                <tr t-if="page['stub_cropped']"><td colspan="6" class="text-right">...</td></tr>
+            </tbody>
+
+
+        </xpath>
+
+</template>
+
+</odoo>

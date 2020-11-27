@@ -24,6 +24,8 @@
         'views/ks_account_account.xml',
         'views/res_partner_view.xml',
         'views/ks_report.xml',
+        'views/report.xml',
+        'views/checks_report.xml',
         'views/assets.xml',
 
     ],
