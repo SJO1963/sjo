@@ -402,4 +402,3 @@ class ReportAgedPartnerBalance(models.AbstractModel):
             if at_least_one_amount or (self._context.get('include_nullified_amount') and lines[partner['partner_id']]):
                 res.append(values)
         return res, total, lines
-
