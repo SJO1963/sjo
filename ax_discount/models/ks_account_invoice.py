@@ -26,12 +26,12 @@ class KsGlobalDiscountInvoice(models.Model):
     ks_enable_discount = fields.Boolean(compute='ks_verify_discount')
     ks_sales_discount_account_id = fields.Integer(compute='ks_verify_discount')
     ks_purchase_discount_account_id = fields.Integer(compute='ks_verify_discount')
-    apply_discount = fields.Boolean(string='Apply Discount')
+    #apply_discount = fields.Boolean(string='Apply Discount')
 
 
 
-    @api.onchange('apply_discount')
-    def _onchange_apply_discount(self):
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
         for rec in self:
             rec.ks_global_discount_type = rec.partner_id.ks_global_discount_type
             rec.ks_global_discount_rate = rec.partner_id.ks_global_discount_rate
@@ -149,7 +149,7 @@ class KsGlobalDiscountInvoice(models.Model):
                     rec._recompute_universal_discount_lines()
                 print()
 
-    @api.onchange('ks_global_discount_rate', 'ks_global_discount_type', 'line_ids','apply_discount')
+    @api.onchange('ks_global_discount_rate', 'ks_global_discount_type', 'partner_id','line_ids',)
     def _recompute_universal_discount_lines(self):
         """This Function Create The General Entries for Universal Discount"""
         for rec in self:
