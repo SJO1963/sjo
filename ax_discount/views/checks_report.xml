@@ -22,9 +22,18 @@
                         <td class="text-left"><t t-if="stub_line['due_date']" t-esc="stub_line['due_date']"/></td>
                         <td class="text-left text-truncate" style="max-width: 500px;"><t t-esc="stub_line['number']"/></td>
                         <td class="text-right"><t t-esc="stub_line['amount_total']"/></td>
-                         <td class="text-right">
-                            <span t-esc="stub_line['amount_discount']"/>
+                         
+			<t t-foreach="request.env['account.move'].search([('name', '=', stub_line['communication'])],limit=1)" t-as="obj">
+
+
+
+
+
+<td class="text-right">
+                            <span t-esc="obj['ks_amount_discount']"/>
                         </td>
+
+</t>
                         <td class="text-right"><t t-esc="stub_line['amount_paid']"/></td>
                     </tr></t>
                 </t>
