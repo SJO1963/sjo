@@ -103,8 +103,10 @@ class ReportAccountAgedPartner(models.AbstractModel):
                     # discount_value = {'name': discount_amount if discount_amount > 0 else 0.0,
                     #                   'no_format': discount_amount if discount_amount > 0 else 0.0}
                     total_discount = aml.move_id.ks_amount_discount
-                    total_bill = total_bill + aml.move_id.amount_total
+                    total_bill =  aml.move_id.amount_untaxed
+                    line['amount'] *= -1
                     total_net = total_net + line['amount']
+                   
                     vals = {
                         'id': aml.id,
                         'name': aml.move_id.name,
@@ -113,7 +115,7 @@ class ReportAccountAgedPartner(models.AbstractModel):
                         'level': 4,
                         'parent_id': 'partner_%s' % (values['partner_id'],),
                         'columns': [{'name': v} for v in
-                                    [format_date(self.env, aml.date_maturity or aml.date), aml.move_id.amount_total, aml.move_id.ks_amount_discount,line['amount']]] +
+                                    [format_date(self.env, aml.date_maturity or aml.date), aml.move_id.amount_untaxed, aml.move_id.ks_amount_discount,line['amount']]] +
                                    [{'name': self.format_value(sign * v, blank_if_zero=True), 'no_format': sign * v} for
                                     v in [line['period'] == 6 - i and line['amount'] or 0 for i in range(7)]],#'''aml.journal_id.code,
                                      # aml.account_id.display_name,''',
@@ -346,7 +348,7 @@ class ReportAgedPartnerBalance(models.AbstractModel):
             #         discount_amount = (line.move_id.invoice_payment_term_id.line_ids.search([('value', '=', 'fixed')])[
             #                                0].value_amount)
             disc_amount[partner_id] += line.move_id.ks_amount_discount
-            total_amount[partner_id]=line.move_id.amount_total
+            total_amount[partner_id]=line.move_id.amount_untaxed
 
 
         for partner in partners:
@@ -368,11 +370,14 @@ class ReportAgedPartnerBalance(models.AbstractModel):
             total[6] = total[6] + undue_amt
             values['direction'] = undue_amt
             values['discount'] = disc_amt
+            #values['total_bill'] = total_amt 
             values['total_bill'] = total_amt
             if total_amt>0:
-                values['net']=total_amt - disc_amt
+                #values['net']=total_amt - disc_amt
+                values['net'] = total_amt 
             else:
-                values['net'] = total_amt + disc_amt
+                #values['net'] = total_amt + disc_amt
+                values['net'] = total_amt 
 
 
             if not float_is_zero(values['direction'], precision_rounding=self.env.company.currency_id.rounding):
