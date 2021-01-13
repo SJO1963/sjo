@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="partner_view_dis" model="ir.ui.view">
+        <field name="name">dis.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+           
+          
+            <field name="ks_global_discount_type" widget="selection"/>
+            <field name="ks_global_discount_rate"/>
+            <newline/>
+        </xpath>
+        </field>
+    </record>
+</odoo>

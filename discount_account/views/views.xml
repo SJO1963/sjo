@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="inherit_account_payment" model="ir.ui.view">
+        <field name="name">account.payment.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="communication" position="after">
+                <group>
+                    <group>
+                        <field name="invoice_date"/>
+                        <field name="invoice_number"/>
+                    </group>
+
+                </group>
+
+
+            </field>
+            <field name="payment_method_id" position="after">
+                <group>
+                    <group>
+
+                        <field name="invoice_amount"/>
+                        <field name="invoice_balance"/>
+                        <field name="invoice_discount"/>
+
+                    </group>
+
+                </group>
+
+
+            </field>
+            <!--<label for="amount" position="attributes">-->
+
+        </field>
+    </record>
+
+
+    <record id="advance_account_form" model="ir.ui.view">
+        <field name="name">Vendor Advance Account</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <page name="accounting" position="inside">
+                <xpath expr="//field[@name='property_account_receivable_id']" position="before">
+                    <!-- Add your fields or attributes here attrs="{'invisible': [('supplier_rank', '!=', '1')]}"-->
+                    <div class="col-12 col-lg-6">
+                        <field name="supplier_rank" invisible="1"/>
+                        <group>
+                            <field name="discount_payment_account_id"/>
+                        </group>
+                    </div>
+                </xpath>
+            </page>
+
+        </field>
+    </record>
+
+
+        <!-- Inherit Form View to Modify it -->
+
+</odoo>
