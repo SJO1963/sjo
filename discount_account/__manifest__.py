@@ -15,7 +15,7 @@
     'category': 'account',
     'price': 0,
     'currency': 'EUR',
-    'version': '13.0.0.3.6',
+    'version': '13.0.0.3.7',
     'license' : 'OPL-1',
     'depends': ['sale_management', 'account_accountant','l10n_us_check_printing'],
 
@@ -29,7 +29,7 @@
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo/demo.xml',
+        # 'demo/demo.xml',
     ],
 }
 

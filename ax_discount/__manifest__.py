@@ -12,9 +12,9 @@
     'author': "Usman Farzand",
     'website': "https://www.axiomworld.com/",
     'category': 'Sales Management',
-    'version': '13.0.0.5',
+    'version': '13.0.0.7',
     'license': 'LGPL-3',
-    'depends': ['base','base_setup','contacts', 'l10n_us_check_printing','account_accountant', 'sale', 'purchase', 'sale_management'],
+    'depends': ['base','base_setup','contacts', 'l10n_us_check_printing', 'account_accountant', 'sale', 'purchase', 'sale_management'],
 
     'data': [
         'views/ks_sale_order.xml',
@@ -30,7 +30,7 @@
 
     ],
 
-       'installable': True,
+    'installable': True,
 
 
 }
