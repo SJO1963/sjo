@@ -408,6 +408,7 @@ class ReportAccountAgedPartner(models.AbstractModel):
                     #                   'no_format': discount_amount if discount_amount > 0 else 0.0}
                     total_discount = total_discount + discount_amount
                     total_bill = total_bill + aml.move_id.amount_total
+                    line['amount'] *= -1
                     total_net = total_net + line['amount']
                     vals = {
                         'id': aml.id,
