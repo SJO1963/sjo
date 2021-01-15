@@ -15,7 +15,7 @@ class KsGlobalDiscountInvoice(models.Model):
                                                 states={'draft': [('readonly', False)],
                                                         'sent': [('readonly', False)]},
                                                 default='percent')
-    ks_global_discount_rate = fields.Float('Universal Discount',
+    ks_global_discount_rate = fields.Float('Universal Discount Rate',
                                            readonly=True,
                                            states={'draft': [('readonly', False)],
                                                    'sent': [('readonly', False)]})

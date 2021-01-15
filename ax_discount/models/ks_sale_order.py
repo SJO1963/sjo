@@ -12,7 +12,7 @@ class KsGlobalDiscountSales(models.Model):
                                                readonly=True,
                                                states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
                                                default='percent')
-    ks_global_discount_rate = fields.Float('Universal Discount',
+    ks_global_discount_rate = fields.Float('Universal Discount Rate',
                                            readonly=True,
                                            states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
     ks_amount_discount = fields.Monetary(string='Universal Discount', readonly=True, compute='_amount_all', store=True,
